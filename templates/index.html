@@ -12,6 +12,12 @@
                 <input type="file" name="file">
                 <button type="submit">Submit</button>
             </form>
+            {% for table in tables %}
+                {{ table|safe }}
+            {% endfor %}
+            {% if btn is defined %}
+                {% include btn ignore missing %}
+            {% endif %}
         </div>
     </body>
 </html>
