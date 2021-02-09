@@ -1,4 +1,4 @@
-.vscode
-venv
+.vscode/
+venv/
 __pycashe__
-uploaded_*.csv
+uploads/geo_*.csv
