@@ -35,3 +35,10 @@ html, body {
     margin-top: 20px;
     margin-bottom: 15px;
 }
+
+.wrong_file {
+    font-family: arial, sans-serif;
+    font-size: 15px;
+    color:#c7155f; 
+    margin-top: 15px;
+}

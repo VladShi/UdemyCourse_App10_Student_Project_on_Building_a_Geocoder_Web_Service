@@ -17,27 +17,28 @@ def success():
     global df
     if request.method == 'POST':
         ufile = request.files['file']
-        # ufile.save(secure_filename("uploaded_" + ufile.filename))
-        df = pd.read_csv(ufile)
-        if 'Address' in df.columns or 'address' in df.columns:
-            if 'address' in df.columns and 'Address' not in df.columns:
-                address = 'address'
+        if ufile.filename.lower().endswith('.csv'):
+            df = pd.read_csv(ufile, encoding = "ISO-8859-1")
+            if 'Address' in df.columns or 'address' in df.columns:
+                if 'address' in df.columns and 'Address' not in df.columns:
+                    address = 'address'
+                else:
+                    address = 'Address'
+                df['Latitude'] = df[address].apply(ArcGIS().geocode).apply(
+                    lambda x: x.latitude if x != None else None)
+                df['Longitude'] = df[address].apply(ArcGIS().geocode).apply(
+                    lambda x: x.longitude if x != None else None)
+                return render_template("index.html",
+                                    tables=[
+                                        df.to_html(classes='data',
+                                                    index=False,
+                                                    header="true")
+                                    ],
+                                    btn="download.html")
             else:
-                address = 'Address'
-            df['Latitude'] = df[address].apply(ArcGIS().geocode).apply(
-                lambda x: x.latitude if x != None else None)
-            df['Longitude'] = df[address].apply(ArcGIS().geocode).apply(
-                lambda x: x.longitude if x != None else None)
-            return render_template("index.html",
-                                   tables=[
-                                       df.to_html(classes='data',
-                                                  index=False,
-                                                  header="true")
-                                   ],
-                                   btn="download.html")
+                return render_template("index.html", wrong_file="wrong_file.html")
         else:
-            pass  # notification about file has not "address" column
-
+            return render_template("index.html", wrong_file="wrong_file.html")
 
 @app.route('/download')
 def download():

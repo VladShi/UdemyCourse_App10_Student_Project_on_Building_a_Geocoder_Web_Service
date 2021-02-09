@@ -18,6 +18,9 @@
             {% if btn is defined %}
                 {% include btn ignore missing %}
             {% endif %}
+            {% if wrong_file is defined %}
+                {% include wrong_file ignore missing %}
+            {% endif %}
         </div>
     </body>
 </html>

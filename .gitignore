@@ -1,3 +1,4 @@
 .vscode
 venv
 __pycashe__
+uploaded_*.csv
